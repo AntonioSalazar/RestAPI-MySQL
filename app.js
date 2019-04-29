@@ -6,21 +6,28 @@ const express      = require('express');
 const favicon      = require('serve-favicon');
 const hbs          = require('hbs');
 // const mongoose     = require('mongoose');
-const mysql        = require('mysql');
+// const mysql        = require('mysql');
 const logger       = require('morgan');
 const path         = require('path');
-const settings     = require('./routes/settings')
-
-const connection   = mysql.createConnection(settings.database);
-connection.connect(err => {
-  if (err) {
-    console.log('error connecting to mysql ->', err);
-    return process.exit();
-  } else {
-    console.log(`connected to MySQL ${settings.database.database} database`);
-  }
+const settings     = require('./routes/settings');
+const knex        = require('knex')({
+  client: 'mysql',
+  connection: settings.database
 })
 
+
+//code below is how to connect to mysql using the mysql native driver
+// const connection   = mysql.createConnection(settings.database);
+// connection.connect(err => {
+//   if (err) {
+//     console.log('error connecting to mysql ->', err);
+//     return process.exit();
+//   } else {
+//     console.log(`connected to MySQL ${settings.database.database} database`);
+//   }
+// })
+
+//code below is how to connect to mongodb 
 // mongoose
 //   .connect('mongodb://localhost/restapiproject', {useNewUrlParser: true})
 //   .then(x => {
@@ -61,7 +68,10 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 // default value for title local
 app.locals.title = 'Express - Generated with an express generator';
-app.locals.connection = connection;
+//below line of code is needed to connect to mysql db using the mysql native driver
+// app.locals.connection = connection;
+//below line of code is needed to connect using knex.js
+app.locals.knex = knex;
 
 
 const index = require('./routes/index');
