@@ -20,6 +20,7 @@ connection.connect(err => {
     console.log(`connected to MySQL ${settings.database.database} database`);
   }
 })
+
 // mongoose
 //   .connect('mongodb://localhost/restapiproject', {useNewUrlParser: true})
 //   .then(x => {
@@ -59,8 +60,8 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 
 // default value for title local
-app.locals.title = 'Express - Generated with IronGenerator';
-
+app.locals.title = 'Express - Generated with an express generator';
+app.locals.connection = connection;
 
 
 const index = require('./routes/index');
