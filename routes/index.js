@@ -10,4 +10,8 @@ router.get('/employees/:id',  middlewares.getIDAsInteger, routes.employees.listO
 
 router.post('/employees', routes.employees.createEmployee);
 
+router.patch('/employees/:id', middlewares.getIDAsInteger, routes.employees.updateEmployee);
+
+router.delete('/employees/:id', middlewares.getIDAsInteger, routes.employees.deleteEmployee);
+
 module.exports = router;

@@ -51,8 +51,43 @@ function createEmployee(req, res) {
   }
 }
 
+function updateEmployee(req, res) {
+  const {knex} = req.app.locals;
+  const {id}   = req.params;
+  const payload = req.body;
+  knex('employees')
+    .where('id', id)
+    .update(payload)
+    .then(response => {
+      if (response) {
+        return res.status(204).json()
+      } else {
+        return res.status(404).json(`Employe with the ID ${id} not found`)
+      }
+    })
+    .catch(err => res.status(500).json(err))
+}
+
+function deleteEmployee(req, res) {
+  const {knex} = req.app.locals;
+  const {id}   = req.params;
+  knex('employees')
+    .where('id', id)
+    .del()
+    .then(response => {
+      if(response){
+        res.status(200).json(`employe with the id ${id} deleted.`)
+      } else {
+        return res.status(404).json(`Employe with the ID ${id} not found`);
+      }
+    })
+    .catch(err => res.status(500).json(err));
+}
+
 module.exports = {
   listAllEmployees,
   listOneEmployee,
-  createEmployee
+  createEmployee,
+  updateEmployee,
+  deleteEmployee
 } ;
