@@ -5,19 +5,31 @@ const cookieParser = require('cookie-parser');
 const express      = require('express');
 const favicon      = require('serve-favicon');
 const hbs          = require('hbs');
-const mongoose     = require('mongoose');
+// const mongoose     = require('mongoose');
+const mysql        = require('mysql');
 const logger       = require('morgan');
 const path         = require('path');
+const settings     = require('./routes/settings')
+
+const connection   = mysql.createConnection(settings.database);
+connection.connect(err => {
+  if (err) {
+    console.log('error connecting to mysql ->', err);
+    return process.exit();
+  } else {
+    console.log(`connected to MySQL ${settings.database.database} database`);
+  }
+})
+// mongoose
+//   .connect('mongodb://localhost/restapiproject', {useNewUrlParser: true})
+//   .then(x => {
+//     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
+//   })
+//   .catch(err => {
+//     console.error('Error connecting to mongo', err)
+//   });
 
 
-mongoose
-  .connect('mongodb://localhost/restapiproject', {useNewUrlParser: true})
-  .then(x => {
-    console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
-  })
-  .catch(err => {
-    console.error('Error connecting to mongo', err)
-  });
 
 const app_name = require('./package.json').name;
 const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
