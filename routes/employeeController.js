@@ -13,10 +13,25 @@
 
 function listAllEmployees(req, res) {
   const { knex } =  req.app.locals;
-  knex.select('name', 'address', 'email', 'hired', 'dob', 'salary', 'bonus', 'photo', 'department')
-    .from('employees')
-    .then(dataFromDB => res.status(200).json(dataFromDB))
-    .catch(err => res.status(500).json(err))
+  const { orderBy } = req.query;
+  if (orderBy) {
+    const regex = /(.*)(:)(ASC|DESC)/ig;
+    if (regex.test(orderBy)) {
+      const [column, order] = orderBy.split(':')
+      knex.select('name', 'address', 'email', 'hired', 'dob', 'salary', 'bonus', 'photo', 'department')
+        .from('employees')
+        .orderBy(column, order)
+        .then(dataFromDB => res.status(200).json(dataFromDB))
+        .catch(err => res.status(500).json(err))      
+    } else {
+      return res.status(400).json('If using a filter please use [field]: ASC|DESC')
+    }
+  } else {
+      knex.select('name', 'address', 'email', 'hired', 'dob', 'salary', 'bonus', 'photo', 'department')
+        .from('employees')
+        .then(dataFromDB => res.status(200).json(dataFromDB))
+        .catch(err => res.status(500).json(err))   
+  }
 }
 
 function listOneEmployee(req, res) {
