@@ -15,7 +15,7 @@ function listOneDepartment(req, res) {
   .where({id : `${id}`})
   .then(singleDepartment => {
     if (singleDepartment.length > 0) {
-      res.status(200).json(singleDepartment)
+      res.status(200).json(singleDepartment[0])
     } else {
       res.status(404).json(`Department with the ID ${id} not found`)
     }

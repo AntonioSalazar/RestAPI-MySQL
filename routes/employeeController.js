@@ -42,7 +42,7 @@ function listOneEmployee(req, res) {
     .where({ id: `${id}`})
     .then(infoFromDB => {
       if (infoFromDB.length > 0) {
-        return res.status(200).json(infoFromDB)
+        return res.status(200).json(infoFromDB[0])
       } else {
         return res.status(404).json(`employee with ${id} ID not found`)
       }
