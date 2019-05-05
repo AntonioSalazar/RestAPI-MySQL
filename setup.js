@@ -1,7 +1,7 @@
 //How to create a table using knex.js
 const setting = require('./routes/settings');
 const knex = require('knex')({
-  client: mysql,
+  client: 'mysql',
   connection: setting.database
 })
 
@@ -23,7 +23,9 @@ knex.schema.hasTable('users').then(exists => {
     bcrypt.genSalt(saltRounds, (error, salt) => {
       bcrypt.hash(password, salt, (err, hash) => {
         return knex('users').insert({ username, password: hash})
-      })
-    })
+        .then(() => console.log(`${username} inserted`))
+        .catch(err => console.log(err));
+      });
+    });
   }
-})
+}).catch(err => console.log(err));

@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken');
+
 function getIDAsInteger(req, res, next ) {
   const id = +req.params.id;
   if (Number.isInteger(id)) {
@@ -7,6 +9,11 @@ function getIDAsInteger(req, res, next ) {
   }
 }
 
+function authenticate(req, res, next) {
+
+}
+
 module.exports = {
-  getIDAsInteger
+  getIDAsInteger,
+  authenticate
 };
