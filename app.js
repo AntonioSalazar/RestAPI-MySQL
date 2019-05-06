@@ -14,6 +14,14 @@ const knex        = require('knex')({
   client: 'mysql',
   connection: settings.database
 })
+const { ApolloServer } = require('apollo-server-express');
+const resolvers = require('./resolvers/index');
+const schema    = require('./schema/index');
+const server = new ApolloServer({
+  typeDefs: schema,
+  resolvers: resolvers
+})
+
 
 
 //code below is how to connect to mysql using the mysql native driver
@@ -43,6 +51,7 @@ const app_name = require('./package.json').name;
 const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
 
 const app = express();
+server.applyMiddleware({app});
 
 // Middleware Setup
 app.use(logger('dev'));
