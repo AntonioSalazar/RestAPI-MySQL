@@ -1,7 +1,7 @@
 
 function listAllDepartments(req, res) {
   const {knex} = req.app.locals;
-  knex.select('name', 'location')
+  knex.select('id', 'name', 'location')
     .from('departments')
     .then(departmentsFromDB => res.status(200).json(departmentsFromDB))
     .catch(err => res.status(404).json(err))
@@ -10,7 +10,7 @@ function listAllDepartments(req, res) {
 function listOneDepartment(req, res) {
   const { knex } = req.app.locals;
   const { id }   = req.params;
-  knex.select('name', 'location')
+  knex.select('id', 'name', 'location')
   .from('departments')
   .where({id : `${id}`})
   .then(singleDepartment => {

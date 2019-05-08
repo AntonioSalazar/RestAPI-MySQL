@@ -10,14 +10,14 @@ const hbs          = require('hbs');
 const logger       = require('morgan');
 const path         = require('path');
 const settings     = require('./routes/settings');
-const knex        = require('knex')({
+const knex         = require('knex')({
   client: 'mysql',
   connection: settings.database
 })
 const { ApolloServer } = require('apollo-server-express');
 const resolvers = require('./resolvers/index');
 const schema    = require('./schema/index');
-const server = new ApolloServer({
+const server    = new ApolloServer({
   typeDefs: schema,
   resolvers: resolvers
 })
