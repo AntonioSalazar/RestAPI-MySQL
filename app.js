@@ -19,7 +19,10 @@ const resolvers = require('./resolvers/index');
 const schema    = require('./schema/index');
 const server    = new ApolloServer({
   typeDefs: schema,
-  resolvers: resolvers
+  resolvers: resolvers,
+  context: ({req}) => {
+    return { authHeader: req.headers.authorization}
+  }
 })
 
 
